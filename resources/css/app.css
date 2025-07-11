@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Fuente principal */
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap');
+
+body, html {
+    font-family: 'Kumbh Sans', Arial, sans-serif !important;
+}
+
+/* Paleta de colores principal */
+:root {
+    --color-primario: #3c72fc;
+    --color-titulo: #0f0d1d;
+    --color-descriptivo: #585858;
+    --color-acento: #25D366;
+    --color-fondo: #f5f7fa;
+    --color-negro: #181818;
+    --color-blanco: #fff;
+    --color-gris: #e5e7eb;
+    --color-gris-oscuro: #6b7280;
+}
+
+/* Etiqueta de sección */
+.section-label {
+    color: var(--color-primario);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Título principal */
+.titulo-principal {
+    color: var(--color-titulo);
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+/* Texto descriptivo */
+.texto-descriptivo {
+    color: var(--color-descriptivo);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* Utilidades de color */
+.bg-primario { background: var(--color-primario); }
+.text-primario { color: var(--color-primario); }
+.bg-acento { background: var(--color-acento); }
+.text-acento { color: var(--color-acento); }
+.bg-fondo { background: var(--color-fondo); }
+.text-titulo { color: var(--color-titulo); }
+.text-descriptivo { color: var(--color-descriptivo); }
+.bg-gris { background: var(--color-gris); }
+.text-gris { color: var(--color-gris-oscuro); }
