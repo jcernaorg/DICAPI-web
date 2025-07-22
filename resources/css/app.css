@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './animations.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -6,62 +7,346 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Kumbh Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-/* Fuente principal */
-@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap');
-
-body, html {
-    font-family: 'Kumbh Sans', Arial, sans-serif !important;
+/* Global Styles - Applied to all pages except backoffice */
+body:not(.admin-page) {
+    font-family: 'Kumbh Sans', sans-serif;
+    color: #16142c;
 }
 
-/* Paleta de colores principal */
-:root {
-    --color-primario: #3c72fc;
-    --color-titulo: #0f0d1d;
-    --color-descriptivo: #585858;
-    --color-acento: #25D366;
-    --color-fondo: #f5f7fa;
-    --color-negro: #181818;
-    --color-blanco: #fff;
-    --color-gris: #e5e7eb;
-    --color-gris-oscuro: #6b7280;
-}
-
-/* Etiqueta de sección */
-.section-label {
-    color: var(--color-primario);
+/* Section Labels */
+body:not(.admin-page) .section-label {
+    color: #3c72fc;
     font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    font-weight: 500;
 }
 
-/* Título principal */
-.titulo-principal {
-    color: var(--color-titulo);
+/* Main Titles */
+body:not(.admin-page) .main-title {
+    color: #0f0d1d;
     font-size: 40px;
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.2;
 }
 
-/* Texto descriptivo */
-.texto-descriptivo {
-    color: var(--color-descriptivo);
+/* Descriptive Text */
+body:not(.admin-page) .descriptive-text {
+    color: #585858;
     font-size: 16px;
-    font-weight: 400;
     line-height: 1.6;
 }
 
-/* Utilidades de color */
-.bg-primario { background: var(--color-primario); }
-.text-primario { color: var(--color-primario); }
-.bg-acento { background: var(--color-acento); }
-.text-acento { color: var(--color-acento); }
-.bg-fondo { background: var(--color-fondo); }
-.text-titulo { color: var(--color-titulo); }
-.text-descriptivo { color: var(--color-descriptivo); }
-.bg-gris { background: var(--color-gris); }
-.text-gris { color: var(--color-gris-oscuro); }
+/* Gradient Background */
+body:not(.admin-page) .gradient-bg {
+    background: linear-gradient(90deg, #3c72fc -10.59%, #00060c 300.59%);
+}
+
+/* Buttons - Mas Informacion */
+body:not(.admin-page) .btn-mas-informacion {
+    background: linear-gradient(90deg, #3c72fc 0%, #1e40af 100%);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 0px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(60, 114, 252, 0.2);
+}
+
+body:not(.admin-page) .btn-mas-informacion:hover {
+    background: linear-gradient(90deg, #1e40af 0%, #1e3a8a 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(60, 114, 252, 0.4);
+}
+
+body:not(.admin-page) .btn-mas-informacion:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(60, 114, 252, 0.3);
+}
+
+/* Custom utility classes */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Custom text justification */
+.text-justify {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* Background image styles */
+.bg-cover {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+.bg-center {
+    background-position: center !important;
+}
+
+/* Force background image display */
+[style*="background-image"] {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+/* Specific styles for home page background */
+#background-image {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100vh !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
+}
+
+/* Override any conflicting styles */
+body:not(.admin-page) .min-h-screen {
+    min-height: 100vh !important;
+}
+
+body:not(.admin-page) .absolute.inset-0 {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+}
+
+/* Force background image to show */
+body:not(.admin-page) #background-image {
+    background-image: url('/imagenes/1.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100vh !important;
+    z-index: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background-color: transparent !important;
+}
+
+/* Ensure the container has proper dimensions */
+body:not(.admin-page) .min-h-screen {
+    min-height: 100vh !important;
+    position: relative !important;
+}
+
+/* Force the background to be visible */
+body:not(.admin-page) .absolute.inset-0 {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Specific styles for home page background */
+.min-h-screen {
+    min-height: 100vh !important;
+}
+
+.absolute.inset-0 {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body:not(.admin-page) .main-title {
+        font-size: 32px;
+    }
+    
+    body:not(.admin-page) .descriptive-text {
+        font-size: 14px;
+    }
+    
+    body:not(.admin-page) .btn-mas-informacion {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+    
+    /* Para el logo en la navbar de publicaciones y plantillas */
+    body:not(.admin-page) nav img[src*="dicapilogo.png"] {
+        width: 24px !important;
+        height: 24px !important;
+    }
+}
+
+/* Logo completamente responsivo para la página HOME */
+body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+    width: clamp(64px, 12vw, 180px) !important;
+    height: clamp(64px, 12vw, 180px) !important;
+    transition: width 0.3s ease, height 0.3s ease !important;
+}
+
+/* Responsive breakpoints específicos para el logo - Todos los breakpoints estándar */
+@media (max-width: 1920px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(60px, 11vw, 170px) !important;
+        height: clamp(60px, 11vw, 170px) !important;
+    }
+}
+
+@media (max-width: 1536px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(56px, 10vw, 160px) !important;
+        height: clamp(56px, 10vw, 160px) !important;
+    }
+}
+
+@media (max-width: 1440px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(52px, 9vw, 150px) !important;
+        height: clamp(52px, 9vw, 150px) !important;
+    }
+}
+
+@media (max-width: 1366px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(50px, 8.5vw, 145px) !important;
+        height: clamp(50px, 8.5vw, 145px) !important;
+    }
+}
+
+@media (max-width: 1280px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(48px, 8vw, 140px) !important;
+        height: clamp(48px, 8vw, 140px) !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(44px, 7.5vw, 130px) !important;
+        height: clamp(44px, 7.5vw, 130px) !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(40px, 7vw, 120px) !important;
+        height: clamp(40px, 7vw, 120px) !important;
+    }
+}
+
+@media (max-width: 900px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(36px, 6.5vw, 110px) !important;
+        height: clamp(36px, 6.5vw, 110px) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(80px, 16vw, 240px) !important;
+        height: clamp(80px, 16vw, 240px) !important;
+    }
+}
+
+@media (max-width: 720px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(76px, 15vw, 230px) !important;
+        height: clamp(76px, 15vw, 230px) !important;
+    }
+}
+
+@media (max-width: 640px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(72px, 14vw, 220px) !important;
+        height: clamp(72px, 14vw, 220px) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(68px, 13vw, 210px) !important;
+        height: clamp(68px, 13vw, 210px) !important;
+    }
+}
+
+@media (max-width: 540px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(64px, 12vw, 200px) !important;
+        height: clamp(64px, 12vw, 200px) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(60px, 11vw, 190px) !important;
+        height: clamp(60px, 11vw, 190px) !important;
+    }
+}
+
+@media (max-width: 420px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(56px, 10vw, 180px) !important;
+        height: clamp(56px, 10vw, 180px) !important;
+    }
+}
+
+@media (max-width: 375px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(52px, 9vw, 170px) !important;
+        height: clamp(52px, 9vw, 170px) !important;
+    }
+}
+
+@media (max-width: 360px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(48px, 8vw, 160px) !important;
+        height: clamp(48px, 8vw, 160px) !important;
+    }
+}
+
+@media (max-width: 320px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(44px, 7vw, 150px) !important;
+        height: clamp(44px, 7vw, 150px) !important;
+    }
+}
+
+@media (max-width: 280px) {
+    body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
+        width: clamp(40px, 6vw, 140px) !important;
+        height: clamp(40px, 6vw, 140px) !important;
+    }
+}

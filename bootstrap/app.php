@@ -12,13 +12,16 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'admin' => \App\Http\Middleware\AdminAuth::class,
-            'domain.redirect' => \App\Http\Middleware\DomainRedirect::class,
+            'recaptcha' => \App\Http\Middleware\VerifyRecaptcha::class,
         ]);
-        
-        // Aplicar el middleware de redirección de dominio globalmente
-        $middleware->append(\App\Http\Middleware\DomainRedirect::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e) {
+            return response()->view('errors.404', [], 404);
+        });
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+            if ($e->getStatusCode() === 500) {
+                return response()->view('errors.500', [], 500);
+            }
+        });
     })->create();

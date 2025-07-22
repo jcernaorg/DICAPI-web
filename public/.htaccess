@@ -9,6 +9,10 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
@@ -18,58 +22,4 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-
-    # Redirecciones de dominio (solo en producción)
-    RewriteCond %{HTTP_HOST} !^cread\.org\.pe$ [NC]
-    RewriteCond %{HTTP_HOST} !^www\.cread\.org\.pe$ [NC]
-    RewriteCond %{HTTP_HOST} !^localhost$ [NC]
-    RewriteCond %{HTTP_HOST} !^127\.0\.0\.1$ [NC]
-    RewriteCond %{HTTP_HOST} !^::1$ [NC]
-    RewriteCond %{HTTP_HOST} cread [NC]
-    RewriteRule ^(.*)$ https://cread.org.pe/$1 [R=301,L]
-
-    # Redirigir HTTP a HTTPS
-    RewriteCond %{HTTPS} off
-    RewriteCond %{HTTP_HOST} ^cread\.org\.pe$ [NC]
-    RewriteRule ^(.*)$ https://cread.org.pe/$1 [R=301,L]
-</IfModule>
-
-# Configuraciones de seguridad adicionales
-<IfModule mod_headers.c>
-    # Protección XSS
-    Header always set X-XSS-Protection "1; mode=block"
-    
-    # Prevenir clickjacking
-    Header always set X-Frame-Options "SAMEORIGIN"
-    
-    # Prevenir MIME type sniffing
-    Header always set X-Content-Type-Options "nosniff"
-    
-    # Referrer Policy
-    Header always set Referrer-Policy "strict-origin-when-cross-origin"
-</IfModule>
-
-# Compresión GZIP
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/plain
-    AddOutputFilterByType DEFLATE text/html
-    AddOutputFilterByType DEFLATE text/xml
-    AddOutputFilterByType DEFLATE text/css
-    AddOutputFilterByType DEFLATE application/xml
-    AddOutputFilterByType DEFLATE application/xhtml+xml
-    AddOutputFilterByType DEFLATE application/rss+xml
-    AddOutputFilterByType DEFLATE application/javascript
-    AddOutputFilterByType DEFLATE application/x-javascript
-</IfModule>
-
-# Cache de archivos estáticos
-<IfModule mod_expires.c>
-    ExpiresActive on
-    ExpiresByType text/css "access plus 1 year"
-    ExpiresByType application/javascript "access plus 1 year"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType image/jpg "access plus 1 year"
-    ExpiresByType image/jpeg "access plus 1 year"
-    ExpiresByType image/gif "access plus 1 year"
-    ExpiresByType image/svg+xml "access plus 1 year"
 </IfModule>

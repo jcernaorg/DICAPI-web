@@ -1,81 +1,93 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Página no encontrada | Cread ONG</title>
-    <link rel="icon" type="image/png" href="{{ asset('assets/logo.png') }}">
-    <meta name="description" content="Lo sentimos, la página que buscas no existe.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ request()->fullUrl() }}">
-    <meta name="keywords" content="ONG, educación, digital, Perú, tecnología, CREAD, programas, donaciones, voluntariado, innovación, aprendizaje, recursos">
-    <!-- Open Graph -->
-    <meta property="og:title" content="404 - Página no encontrada | Cread ONG">
-    <meta property="og:description" content="Lo sentimos, la página que buscas no existe.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ request()->fullUrl() }}">
-    <meta property="og:image" content="{{ asset('assets/logocread1.png') }}">
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="404 - Página no encontrada | Cread ONG">
-    <meta name="twitter:description" content="Lo sentimos, la página que buscas no existe.">
-    <meta name="twitter:image" content="{{ asset('assets/logocread1.png') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Error 404 - No encontrado</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body {
-            font-family: 'Manrope', sans-serif;
-            background-color: #FCF9F6;
+        html, body {
+            height: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
-        .transition-all {
-            transition: all 0.3s ease-in-out;
+        .error-bg {
+            background-image: url('{{ asset('imagenes/2.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            min-height: 100vh;
+            height: 100%;
         }
-        .hover-scale {
-            transition: transform 0.3s ease-in-out;
+        .error-illustration {
+            width: 160px;
+            max-width: 40vw;
+            margin-bottom: 2rem;
+            opacity: 0.85;
+            filter: drop-shadow(0 4px 24px rgba(60,114,252,0.10));
         }
-        .hover-scale:hover {
-            transform: scale(1.05);
+        .error-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(22, 20, 44, 0.9);
+            z-index: 1;
         }
-        .btn-primary {
-            background-color: #FB8E6D;
-            color: #fff;
-            transition: all 0.3s ease-in-out;
+        .error-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
-        .btn-primary:hover {
-            background-color: #e67e5d;
-            transform: scale(1.05);
+        .error-text {
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .error-btn {
+            background: linear-gradient(135deg, #3c72fc 0%, #1e40af 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(60, 114, 252, 0.4);
+        }
+        .error-btn:hover {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(60, 114, 252, 0.6);
+        }
+        /* Animación fade-in sin desplazamiento */
+        .animate-fade-in {
+            animation: fadeInOnlyOpacity 1.5s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeInOnlyOpacity {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center">
-    <div class="container mx-auto px-6 py-12 text-center">
-        <div class="mb-8">
-            <a href="{{ route('home') }}" class="inline-block">
-                <img src="{{ asset('assets/logo.png') }}" alt="Cread Logo" class="h-16 mx-auto hover-scale">
-            </a>
-        </div>
-        
-        <h1 class="text-9xl font-bold text-[#FB8E6D] mb-4">404</h1>
-        <h2 class="text-3xl font-bold text-gray-800 mb-4">Página no encontrada</h2>
-        <p class="text-gray-600 max-w-md mx-auto mb-8">Lo sentimos, la página que estás buscando no existe o ha sido movida.</p>
-        
-        <div class="flex justify-center space-x-4">
-            <a href="{{ route('home') }}" class="btn-primary px-8 py-3 rounded-full font-semibold">
-                Volver al inicio
-            </a>
-            <a href="{{ route('contact') }}" class="bg-black text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition-all hover:scale-105">
-                Contactar soporte
-            </a>
-        </div>
-
-        <div class="mt-12">
-            <img src="https://illustrations.popsy.co/white/resistance-band.svg" alt="404 Illustration" class="max-w-md mx-auto">
-        </div>
+<body class="antialiased error-bg">
+    <!-- Main Content -->
+    <div class="min-h-screen flex flex-col items-center justify-center py-16 animate-fade-in animate-delay-400 error-content">
+        <img src="{{ asset('imagenes/dicapilogo.png') }}" alt="DICAPI Logo" class="error-illustration">
+        <h1 class="text-4xl font-bold mb-4 animate-fade-in animate-delay-600 error-text text-center">404 - Página no encontrada</h1>
+        <p class="text-lg mb-8 text-center animate-fade-in animate-delay-700 error-text">La página que buscas no existe o ha sido movida.<br>Por favor, verifica la URL o regresa al inicio.</p>
+        <a href="/" class="error-btn animate-fade-in animate-delay-800">Ir al inicio</a>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 </body>
 </html> 

@@ -1,122 +1,246 @@
-@extends('admin.layouts.panel')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-@section('title', 'Dashboard')
+        <title>Admin Dashboard - DICAPI</title>
 
-@section('content')
-<h1 class="text-2xl font-light uppercase tracking-wide mb-6" style="font-family: 'Manrope', 'Montserrat', sans-serif;">@yield('title', 'Panel')</h1>
-<div class="space-y-8">
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm p-6 flex items-center rounded-lg">
-            <div class="p-3 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-lg">
-                <i class="fas fa-blog text-xl"></i>
-            </div>
-            <div class="ml-4">
-                <p class="text-sm font-medium text-gray-600 dark:text-gray-300">Total Blogs</p>
-                <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $stats['total_blogs'] }}</p>
-            </div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm p-6 flex items-center rounded-lg">
-            <div class="p-3 rounded-lg bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
-                <i class="fas fa-check-circle text-xl"></i>
-            </div>
-            <div class="ml-4">
-                <p class="text-sm font-medium text-gray-600 dark:text-gray-300">Publicados</p>
-                <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $stats['published_blogs'] }}</p>
-            </div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm p-6 flex items-center rounded-lg">
-            <div class="p-3 rounded-lg bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
-                <i class="fas fa-edit text-xl"></i>
-            </div>
-            <div class="ml-4">
-                <p class="text-sm font-medium text-gray-600 dark:text-gray-300">Borradores</p>
-                <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $stats['draft_blogs'] }}</p>
-            </div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm p-6 flex items-center rounded-lg">
-            <div class="p-3 rounded-lg bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300">
-                <i class="fas fa-eye-slash text-xl"></i>
-            </div>
-            <div class="ml-4">
-                <p class="text-sm font-medium text-gray-600 dark:text-gray-300">Ocultos</p>
-                <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $stats['hidden_blogs'] }}</p>
-            </div>
-        </div>
-    </div>
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Recent Blogs -->
-    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg">
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Blogs Recientes</h3>
-            <a href="{{ route('admin.blogs.create') }}" 
-               class="bg-[#38bdf8] text-white px-4 py-2 rounded-lg transition-all duration-500 hover:bg-[#0ea5e9] hover:shadow-[0_0_16px_4px_#38bdf8] focus:shadow-[0_0_16px_4px_#38bdf8] hover:border-[#38bdf8] focus:border-[#38bdf8] border border-transparent">
-                <i class="fas fa-plus mr-2"></i>
-                Nuevo Blog
-            </a>
-        </div>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-50 dark:bg-gray-900">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Título</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Autor</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Estado</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Fecha</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                    @forelse($recent_blogs as $blog)
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $blog->title }}</div>
-                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ Str::limit($blog->excerpt, 50) }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900 dark:text-white">{{ $blog->user->name }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            @if($blog->status === 'published')
-                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">Publicado</span>
-                            @elseif($blog->status === 'draft')
-                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300">Borrador</span>
-                            @else
-                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300">Oculto</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            {{ $blog->created_at->format('d/m/Y H:i') }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="{{ route('admin.blogs.edit', $blog) }}" 
-                               class="text-[#fde047] mr-3 transition-all hover:opacity-80 hover:scale-105" title="Editar">
-                                <i class="fas fa-edit text-xl"></i>
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- Custom Styles for Admin -->
+        <style>
+            body {
+                font-family: 'Kumbh Sans', sans-serif;
+            }
+            
+            .section-label {
+                color: #3c72fc;
+                font-size: 16px;
+                font-weight: 500;
+            }
+            
+            .main-title {
+                color: #0f0d1d;
+                font-size: 40px;
+                font-weight: 700;
+            }
+            
+            .descriptive-text {
+                color: #585858;
+                font-size: 16px;
+                font-weight: 400;
+            }
+            
+            .bg-light-blue {
+                background-color: #f3f7fb;
+            }
+            
+            .bg-dark-blue {
+                background-color: #16142c;
+            }
+            
+            .bg-gradient-blue {
+                background: linear-gradient(90deg, #3c72fc -10.59%, #00060c 300.59%);
+            }
+            
+            /* Forzar efectos hover para botones de acciones rápidas */
+            .quick-action-button:hover {
+                background-color: #f0fdf4 !important;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+            }
+            
+            .quick-action-button:hover svg {
+                color: #15803d !important;
+            }
+            
+            .quick-action-button:hover span {
+                color: #15803d !important;
+            }
+        </style>
+    </head>
+    <body class="antialiased bg-gray-100 admin-page">
+        <div class="flex h-screen">
+            <!-- Sidebar -->
+            <div class="w-64 bg-dark-blue text-white">
+                <!-- Header -->
+                <div class="p-6 border-b border-blue-800">
+                    <div class="flex items-center justify-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                        <h1 class="text-xl font-bold">Admin Panel</h1>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="mt-6">
+                    <div class="px-6 py-3">
+                        <h2 class="section-label uppercase tracking-wider">GESTIÓN</h2>
+                    </div>
+                    
+                    <a href="/admin/dashboard" class="flex items-center px-6 py-3 text-white bg-blue-800 border-l-4 border-yellow-400">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
+                        </svg>
+                        Dashboard
+                    </a>
+                    
+                    <a href="/admin/publicaciones" class="flex items-center px-6 py-3 text-blue-100 hover:text-white hover:bg-blue-800 hover:border-l-4 hover:border-blue-400 transition-all duration-200 cursor-pointer">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                        </svg>
+                        Publicaciones
+                    </a>
+                    
+                    <a href="/admin/plantillas" class="flex items-center px-6 py-3 text-blue-100 hover:text-white hover:bg-blue-800 hover:border-l-4 hover:border-green-400 transition-all duration-200 cursor-pointer">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Plantillas
+                    </a>
+                </nav>
+
+                <!-- Large DICAPI Logo -->
+                <div class="flex-1 flex items-center justify-center px-6 py-8">
+                    <div class="relative">
+                        <img src="{{ asset('imagenes/dicapilogo.png') }}" alt="DICAPI Logo" class="w-32 h-32 opacity-50">
+                    </div>
+                </div>
+
+                <!-- User Section -->
+                <div class="absolute bottom-0 w-64 p-6 border-t border-blue-800">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium">Administrador</p>
+                                <p class="text-xs text-blue-300">admin@dicapi.gob.pe</p>
+                            </div>
+                        </div>
+                        <form method="POST" action="{{ route('admin.logout') }}" class="inline">
+                            @csrf
+                            <button type="submit" class="text-blue-300 hover:text-white hover:bg-blue-800 p-2 rounded-lg transition-all duration-200 cursor-pointer">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <!-- Header -->
+                <header class="bg-light-blue shadow-sm border-b border-gray-200">
+                    <div class="flex items-center justify-between px-6 py-4">
+                        <h2 class="main-title">Dashboard</h2>
+                    </div>
+                </header>
+
+                <!-- Page Content -->
+                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+                    <div class="container mx-auto px-6 py-8">
+                        <!-- Stats Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                            <a href="/admin/publicaciones" class="bg-white rounded-lg shadow-sm p-8 hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-sm font-medium descriptive-text">Publicaciones</p>
+                                        <p class="text-2xl font-semibold text-gray-900">{{ $publicacionesCount }}</p>
+                                    </div>
+                                </div>
                             </a>
-                            <a href="{{ route('admin.blogs.show', $blog) }}" 
-                               class="text-[#38bdf8] mr-3 transition-all hover:opacity-80 hover:scale-105" title="Ver">
-                                <i class="fas fa-eye text-xl"></i>
+
+                            <a href="/admin/plantillas" class="bg-white rounded-lg shadow-sm p-8 hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-sm font-medium descriptive-text">Plantillas</p>
+                                        <p class="text-2xl font-semibold text-gray-900">{{ $plantillasCount }}</p>
+                                    </div>
+                                </div>
                             </a>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                            No hay blogs creados aún.
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+
+                            <div class="bg-white rounded-lg shadow-sm p-8">
+                                <div class="flex items-center">
+                                    <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-sm font-medium descriptive-text">Última Actualización</p>
+                                        <p class="text-lg font-semibold text-gray-900">{{ $lastUpdateTime }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div class="bg-white rounded-lg shadow-sm p-8">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Acciones Rápidas</h3>
+                                <div class="space-y-3">
+                                    <a href="/admin/publicaciones?showForm=true" class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 hover:shadow-sm transition-all duration-200 cursor-pointer">
+                                        <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        </svg>
+                                        <span class="text-gray-700">Agregar Nueva Publicación</span>
+                                    </a>
+                                    <a href="/admin/plantillas?showForm=true" class="quick-action-button flex items-center p-3 rounded-lg border border-gray-200 transition-all duration-200 cursor-pointer">
+                                        <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        </svg>
+                                        <span class="text-gray-700">Agregar Nueva Plantilla</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg shadow-sm p-8">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Actividad Reciente</h3>
+                                <div class="space-y-3">
+                                    @forelse($recentActivities as $activity)
+                                    <div class="flex items-center text-sm text-gray-600">
+                                        <div class="w-2 h-2 {{ $activity->action === 'create' ? 'bg-blue-500' : ($activity->action === 'update' ? 'bg-green-500' : 'bg-red-500') }} rounded-full mr-3"></div>
+                                        {{ $activity->formatted_description }}
+                                        <span class="text-xs text-gray-400 ml-2">{{ $activity->time_ago }}</span>
+                                    </div>
+                                    @empty
+                                    <div class="text-sm text-gray-500 italic">
+                                        No hay actividad reciente
+                                    </div>
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
         </div>
-        @if($recent_blogs->count() > 0)
-        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
-            <a href="{{ route('admin.blogs.index') }}" 
-               class="bg-[#38bdf8] text-white text-sm font-medium px-4 py-2 rounded-lg transition-all duration-500 hover:bg-[#0ea5e9] hover:shadow-[0_0_12px_2px_#38bdf8] focus:shadow-[0_0_12px_2px_#38bdf8] hover:border-[#38bdf8] focus:border-[#38bdf8] border border-transparent">
-                Ver todos los blogs →
-            </a>
-        </div>
-        @endif
-    </div>
-</div>
-@endsection 
+    </body>
+</html> 

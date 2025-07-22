@@ -1,87 +1,45 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DonationController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\TeamController;
-use App\Http\Controllers\ProgramController;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\BlogController;
-use App\Http\Controllers\Admin\AIController;
-use App\Http\Controllers\BlogPublicController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PublicacionController;
+use App\Http\Controllers\PlantillaController;
 
-// Ruta principal (inicio)
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/home');
 });
 
-// Redirección global para cualquier otra ruta
-Route::any('{any}', function () {
-    return redirect('/');
-})->where('any', '.*');
-
-// Route::get('/', [ProgramController::class, 'index'])->name('home');
-
-// Route::get('/about', function () {
-//     return view('about');
-// })->name('about');
-
-// Route::get('/programs', [ProgramController::class, 'list'])->name('programs');
-// Route::get('/program-details/{id}', [ProgramController::class, 'show'])->name('program-details');
-
-// Route::get('/donations', [DonationController::class, 'index'])->name('donations');
-// Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
-
-// Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-// Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-
-// Route::get('/blog', [BlogPublicController::class, 'index'])->name('blog');
-// Route::get('/blog/{blog:slug}', [BlogPublicController::class, 'show'])->name('blog-review');
-
-// Route::get('/teams', [TeamController::class, 'index'])->name('teams');
-
-// Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
-// Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-
-// Route::get('/terms-conditions', function () {
-//     return view('terms-conditions');
-// })->name('terms-conditions');
-
-// Route::get('/privacy-policy', function () {
-//     return view('privacy-policy');
-// })->name('privacy-policy');
-
-// Route::get('/mision', function () {
-//     return view('mision');
-// })->name('mision');
-
-// Route::get('/vision', function () {
-//     return view('vision');
-// })->name('vision');
-
-// Route::get('/404', function () {
-//     return view('errors.404');
-// })->name('404');
-
-// Admin Routes
-Route::prefix('admin')->name('admin.')->group(function () {
-    // Auth routes (no middleware)
-    Route::get('login', [AuthController::class, 'showLogin'])->name('login');
-    Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
-    Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-
-    // Protected admin routes
-    Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        
-        // Blog management
-        Route::resource('blogs', BlogController::class);
-        Route::patch('blogs/{blog}/toggle-status', [BlogController::class, 'toggleStatus'])->name('blogs.toggle-status');
-        
-        // AI Content generation
-        Route::post('ai/generate', [AIController::class, 'generateContent'])->name('ai.generate');
-    });
+Route::get('/home', function () {
+    return view('home');
 });
+
+Route::get('/publicaciones', [PublicacionController::class, 'index'])->name('publicaciones.index');
+Route::get('/publicaciones/{id}', [PublicacionController::class, 'show'])->name('publicaciones.show');
+Route::get('/publicaciones/{id}/download', [PublicacionController::class, 'download'])->name('publicaciones.download');
+
+Route::get('/plantillas', [PlantillaController::class, 'index'])->name('plantillas.index');
+Route::get('/plantillas/{id}', [PlantillaController::class, 'show'])->name('plantillas.show');
+
+Route::get('/admin-login', function () {
+    return view('admin-login');
+});
+
+Route::post('/admin-login', [AdminController::class, 'login'])->name('admin.login');
+Route::post('/admin-logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+// Backoffice Routes
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/publicaciones', [AdminController::class, 'publicaciones'])->name('admin.publicaciones');
+    Route::post('/publicaciones', [AdminController::class, 'storePublicacion'])->name('admin.publicaciones.store');
+    Route::put('/publicaciones/{id}', [AdminController::class, 'updatePublicacion'])->name('admin.publicaciones.update');
+    Route::delete('/publicaciones/{id}', [AdminController::class, 'deletePublicacion'])->name('admin.publicaciones.delete');
+    
+    Route::get('/plantillas', [AdminController::class, 'plantillas'])->name('admin.plantillas');
+    Route::post('/plantillas', [AdminController::class, 'storePlantilla'])->name('admin.plantillas.store');
+    Route::put('/plantillas/{id}', [AdminController::class, 'updatePlantilla'])->name('admin.plantillas.update');
+    Route::delete('/plantillas/{id}', [AdminController::class, 'deletePlantilla'])->name('admin.plantillas.delete');
+})->middleware('auth');
+
+// Download Routes
+Route::get('/download/plantilla/{id}', [AdminController::class, 'downloadPlantilla'])->name('download.plantilla');
