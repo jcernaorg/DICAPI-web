@@ -206,11 +206,11 @@ php artisan test
 
 ## 11. 👥 Créditos y Licencia
 
-- Desarrollado por: **DICAPI Team**
+- Desarrollado por: [Javier Cerna](https://github.com/jaacern)
 - Basado en Laravel 12.x
 - Licencia: MIT
 - Iconos de [FontAwesome](https://fontawesome.com/) y [SimpleIcons](https://simpleicons.org/)
 
 ---
 
-¡Gracias por usar DICAPI! Si tienes dudas o sugerencias, abre un issue o contacta al equipo de desarrollo.
+¡Gracias por usar DICAPI! Si tienes dudas o sugerencias, abre un issue o contacta al desarrollador.
