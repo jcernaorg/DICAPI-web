@@ -350,3 +350,85 @@ body:not(.admin-page) .absolute.top-0.left-0 img[src*="dicapilogo.png"] {
         height: clamp(40px, 6vw, 140px) !important;
     }
 }
+
+/* Cambios para acelerar animaciones y transiciones */
+
+/* Ejemplo: antes 1.2s, ahora 0.5s */
+@keyframes slideInFromLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animaciones y transiciones ultra rápidas */
+
+.left-side, .right-side {
+    animation-duration: 0.1s !important;
+    animation-delay: 0s !important;
+}
+
+.login-input, .login-button, h1, label {
+    animation-duration: 0.05s !important;
+    animation-delay: 0s !important;
+}
+
+.logo-image {
+    animation-duration: 0.1s !important;
+    animation-delay: 0s !important;
+}
+
+.login-input, .login-button {
+    transition: all 0.05s ease !important;
+}
+
+body {
+    background-image: url('../imagenes/2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+}
+
+body, .main-wrapper, .content, .absolute, .overlay, .inset-0 {
+    opacity: 1 !important;
+    background: none !important;
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Eliminar animaciones y transiciones de overlays */
+.absolute, .overlay, .inset-0 {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+}
+
+.fadein-text {
+    opacity: 0;
+    animation: fadeInText 0.4s ease-in-out forwards;
+}
+
+@keyframes fadeInText {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
