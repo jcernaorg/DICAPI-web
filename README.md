@@ -44,7 +44,7 @@ DICAPI es una plataforma web desarrollada en Laravel para la gestión de publica
 
 ## 3. ⚙️ Requisitos
 
-- PHP >= 8.2
+- PHP >= 8.2.0
 - Composer
 - MySQL o SQLite
 - Node.js y npm (para assets frontend)
