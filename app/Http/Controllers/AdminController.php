@@ -119,7 +119,10 @@ class AdminController extends Controller
         $lastActivity = Activity::latest()->first();
         $lastUpdateTime = $lastActivity ? $lastActivity->time_ago : 'Nunca';
         
-        return view('admin.dashboard', compact('publicacionesCount', 'plantillasCount', 'lastUpdateTime'));
+        // Obtener las últimas 3 actividades
+        $recentActivities = Activity::latest()->take(3)->get();
+        
+        return view('admin.dashboard', compact('publicacionesCount', 'plantillasCount', 'lastUpdateTime', 'recentActivities'));
     }
 
     // Publicaciones
