@@ -31,6 +31,16 @@
                 background-attachment: fixed;
                 min-height: 100vh;
             }
+            /* Filtro azul encima del fondo */
+            .blue-overlay {
+                position: fixed;
+                inset: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(22, 54, 120, 0.55);
+                z-index: 1;
+                pointer-events: none;
+            }
             
             .login-container {
                 min-height: 100vh;
@@ -188,6 +198,54 @@
                 }
             }
             
+            @keyframes fadeInJoinLeft {
+                0% {
+                    opacity: 0;
+                    transform: translateX(-120px) scale(0.95);
+                }
+                60% {
+                    opacity: 1;
+                    transform: translateX(10px) scale(1.02);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateX(0) scale(1);
+                }
+            }
+            @keyframes fadeInJoinRight {
+                0% {
+                    opacity: 0;
+                    transform: translateX(120px) scale(0.95);
+                }
+                60% {
+                    opacity: 1;
+                    transform: translateX(-10px) scale(1.02);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateX(0) scale(1);
+                }
+            }
+            @keyframes fadeInFromLeft {
+                0% {
+                    opacity: 0;
+                    transform: translateX(-80px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            @keyframes fadeInFromRight {
+                0% {
+                    opacity: 0;
+                    transform: translateX(80px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
             .left-side {
                 flex: 1;
                 padding: 2rem;
@@ -196,9 +254,8 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                animation: slideInFromLeft 1.2s ease-out forwards;
+                animation: fadeInFromLeft 2.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
             }
-            
             .right-side {
                 flex: 1;
                 padding: 2rem;
@@ -208,7 +265,7 @@
                 align-items: center;
                 justify-content: center;
                 position: relative;
-                animation: slideInFromRight 1.2s ease-out forwards;
+                animation: fadeInFromRight 2.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
             }
             
             /* Estado inicial para los elementos internos */
@@ -371,8 +428,8 @@
         </style>
     </head>
     <body>
-        <!-- Overlay con filtro azul oscuro -->
-        <div class="absolute inset-0" style="background: rgba(22, 20, 44, 0.9); z-index: 1;"></div>
+        <div style="position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; background: url('{{ asset('imagenes/2.jpg') }}') center center / cover no-repeat fixed;"></div>
+        <div class="blue-overlay"></div>
         
         <div class="login-container" style="position: relative; z-index: 2;">
             <div class="unified-card">

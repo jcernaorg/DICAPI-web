@@ -65,6 +65,9 @@ class AdminController extends Controller
             }
             
             $request->session()->regenerate();
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['redirect' => route('admin.dashboard')]);
+            }
             return redirect()->route('admin.dashboard');
         }
 
@@ -135,10 +138,15 @@ class AdminController extends Controller
     public function storePublicacion(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:100',
+            'title' => 'required|string|max:100',
             'image' => 'required|image|mimes:jpeg,png,gif|max:3072',
-            'resumen' => 'nullable|string|max:500',
-            'pdf' => 'nullable|file|mimes:pdf|max:10240'
+            'resumen' => 'required|string|max:500',
+            'pdf' => 'required|file|mimes:pdf|max:10240'
+        ], [
+            'title.required' => 'El título es obligatorio.',
+            'image.required' => 'La imagen es obligatoria.',
+            'resumen.required' => 'El resumen es obligatorio.',
+            'pdf.required' => 'El PDF es obligatorio.'
         ]);
 
         $publicacion = new Publicacion();
@@ -169,10 +177,13 @@ class AdminController extends Controller
     public function updatePublicacion(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|max:100',
+            'title' => 'required|string|max:100',
+            'resumen' => 'required|string|max:500',
             'image' => 'nullable|image|mimes:jpeg,png,gif|max:3072',
-            'resumen' => 'nullable|string|max:500',
             'pdf' => 'nullable|file|mimes:pdf|max:10240'
+        ], [
+            'title.required' => 'El título es obligatorio.',
+            'resumen.required' => 'El resumen es obligatorio.'
         ]);
 
         $publicacion = Publicacion::findOrFail($id);
@@ -247,9 +258,13 @@ class AdminController extends Controller
     public function storePlantilla(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:100',
+            'title' => 'required|string|max:100',
             'pdf' => 'required|file|mimes:pdf,application/pdf|max:3072',
             'imagen' => 'required|image|mimes:jpeg,png,gif|max:3072'
+        ], [
+            'title.required' => 'El título es obligatorio.',
+            'pdf.required' => 'El PDF es obligatorio.',
+            'imagen.required' => 'La imagen es obligatoria.'
         ]);
 
         // Validación adicional para el PDF
@@ -301,9 +316,11 @@ class AdminController extends Controller
     public function updatePlantilla(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|max:100',
+            'title' => 'required|string|max:100',
             'pdf' => 'nullable|file|mimes:pdf,application/pdf|max:3072',
             'imagen' => 'nullable|image|mimes:jpeg,png,gif|max:3072'
+        ], [
+            'title.required' => 'El título es obligatorio.'
         ]);
 
         // Validación adicional para el PDF

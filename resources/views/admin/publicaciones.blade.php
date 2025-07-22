@@ -300,6 +300,7 @@
                                         maxlength="500"
                                         placeholder="Ingrese un breve resumen de la publicación"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                                        required
                                     ></textarea>
                                     <p class="text-xs text-gray-500 mt-1">Máximo 500 caracteres</p>
                                 </div>
@@ -359,6 +360,7 @@
                                             name="pdf" 
                                             accept=".pdf"
                                             class="hidden"
+                                            required
                                             onchange="handlePdfSelect(this)"
                                         >
                                         <label for="pdf" class="cursor-pointer">
@@ -472,6 +474,7 @@
                                         maxlength="500"
                                         placeholder="Ingrese un breve resumen de la publicación"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                                        required
                                     ></textarea>
                                     <p class="text-xs text-gray-500 mt-1">Máximo 500 caracteres</p>
                                 </div>
